@@ -8,9 +8,6 @@ app.get('/', (req, res) => {
   res.send('Hello !');
 });
 
-app.listen(8000, () => {
-  console.log('Express server is listening on port 8000!');
-});
 app.get('/burgers', (req, res) => {
   res.send('We have juicy cheese burgers!');
 });
@@ -34,4 +31,30 @@ app.get('/sum', (req, res) => {
   const reqB=parseInt(req.query.b,10);
 
   res.send(`The sum of ${reqA} and ${reqB} is ${reqA+reqB}`);
+});
+
+app.get('/cipher', (req, res) => {
+  const shift = Number(req.query.shift);
+  const text = req.query.text;
+  const textArray = text.split('');
+  const numArray = textArray.map(char => char.charCodeAt(0));
+  const ciphArray = numArray.map(num => {
+    let newNum = num + shift;
+    if (newNum > 90 && newNum <97) {
+      newNum = newNum - 26;
+      return newNum;
+    }
+    else if(newNum > 122) {
+      return newNum-26;
+    }
+    return newNum;
+  });
+  const charArray = ciphArray.map(num => String.fromCharCode(num));
+  const newText = charArray.join('');
+  res.send(newText);
+  //65, 97
+});
+
+app.listen(8000, () => {
+  console.log('Express server is listening on port 8000!');
 });
