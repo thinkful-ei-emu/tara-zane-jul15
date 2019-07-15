@@ -55,6 +55,32 @@ app.get('/cipher', (req, res) => {
   //65, 97
 });
 
+app.get('/lotto',(req,res)=>{
+  const numbers=req.query.numbers;
+  console.log(numbers);
+  let randomNumbers=[]
+
+  for(let i=0;i<6;i++){
+    randomNumbers.push(Math.floor(Math.random()*20)); 
+    
+  }
+
+ randomNumbers.forEach((num,i)){
+   if(num in numbers){
+     
+   }
+ }
+  
+  
+
+  
+  
+  res.send('Sorry About Your Luck');
+
+});
+
+
+
 app.listen(8000, () => {
   console.log('Express server is listening on port 8000!');
 });
