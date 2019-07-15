@@ -56,27 +56,48 @@ app.get('/cipher', (req, res) => {
 });
 
 app.get('/lotto',(req,res)=>{
-  const numbers=req.query.numbers;
+  let numbers=req.query.numbers.map(num => Number(num));
   console.log(numbers);
-  let randomNumbers=[]
+  let randomNumbers=[];
 
   for(let i=0;i<6;i++){
-    randomNumbers.push(Math.floor(Math.random()*20)); 
-    
+    randomNumbers.push(Math.ceil(Math.random()*20)); 
   }
 
- randomNumbers.forEach((num,i)){
-   if(num in numbers){
-     
-   }
- }
-  
-  
+  console.log(randomNumbers);
 
+  let count = 0;
+  randomNumbers.forEach((randNum, index) => {
+    for(let i = 0; i < numbers.length; i++) {
+      let num = numbers[i];
+      console.log(`random number ${index} is ${randNum}, user number ${i} is ${num}`);
+      if (randNum === num) {
+        count ++;
+        numbers.splice(i, 1);
+        console.log(numbers);
+        break;
+      } 
+    }
+  });
   
-  
-  res.send('Sorry About Your Luck');
+  console.log('final count',count);
 
+  let responseText = '';
+  if (count < 4) {
+    responseText = 'Sorry about your luck.';
+  }
+  else if (count === 4) {
+    responseText = "Congratulations! You win a free ticket!";
+  }
+
+  else if (count === 5) {
+    responseText = "Congratulations! You win $100!";
+  }
+
+  else if (count === 6) {
+    responseText = "Wow! You won the MegaMillions!!!!!";
+  }
+  res.send(responseText);
 });
 
 
